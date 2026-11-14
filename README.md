@@ -72,3 +72,7 @@ Terasic **DE10-Standard**（Cyclone V SoC 5CSXFC6D6F31C6）+ Quartus II 13.1 + V
 | ModelSim 自校验（半满触发/顺序读出/双周期） | ✅ PASS |
 | Quartus 全编译 | ✅ 0 错误，时序正裕量 |
 | 上板 T1~T8（半满/顺序/满丢弃/复位/双周期） | ✅ 见 `docs/测试数据表.md` 与演示视频 |
+
+## 开源许可
+
+本项目以 [MIT License](LICENSE) 开源——可自由使用、修改、二次分发（保留版权声明即可），适合课程学习与参考。
