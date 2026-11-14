@@ -1,0 +1,72 @@
+# ----------------------------------------------------------------------
+# exp3_fifo_macro.qsf : DE10-Standard (5CSXFC6D6F31C6) 管脚与器件约束
+# 数据来源：DE10-Standard User Manual（Table 3-5/3-6/3-7/3-8/3-9/3-11）
+# 时钟 50 MHz 在专用时钟引脚 AF14；串口接收用 JP1 第 1 针 GPIO_D0 = W15
+# 拨动开关 SW0（AB30）选择数码管显示周期
+# ----------------------------------------------------------------------
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CSXFC6D6F31C6
+set_global_assignment -name TOP_LEVEL_ENTITY fifo_macro_top
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name VERILOG_FILE rtl/pll_sys.v
+set_global_assignment -name VERILOG_FILE rtl/fifo_buf.v
+set_global_assignment -name VERILOG_FILE rtl/uart_rx.v
+set_global_assignment -name VERILOG_FILE rtl/seg7_ascii.v
+set_global_assignment -name VERILOG_FILE rtl/seg7_hex.v
+set_global_assignment -name VERILOG_FILE rtl/fifo_macro_top.v
+set_global_assignment -name SDC_FILE exp3_fifo_macro.sdc
+set_global_assignment -name LAST_QUARTUS_VERSION 13.1
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS "AS INPUT TRI-STATED"
+set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
+
+# ---- 时钟 / 复位 / 串口 / 开关 ----
+set_location_assignment PIN_AF14 -to CLOCK_50
+set_location_assignment PIN_AJ4 -to KEY0
+set_location_assignment PIN_W15 -to UART_RX
+set_location_assignment PIN_AB30 -to sw_period
+# GND_OUT：JP1 第 2 针 GPIO_D1（AK2），常低输出充当转接器黑线回流地
+set_location_assignment PIN_AK2 -to GND_OUT
+
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CLOCK_50
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to KEY0
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to UART_RX
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sw_period
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GND_OUT
+
+# ---- 七段数码管 HEX0（显示当前字符）、HEX1/HEX2（FIFO 剩余字数，十六进制）----
+set_location_assignment PIN_W17 -to HEX0[0]
+set_location_assignment PIN_V18 -to HEX0[1]
+set_location_assignment PIN_AG17 -to HEX0[2]
+set_location_assignment PIN_AG16 -to HEX0[3]
+set_location_assignment PIN_AH17 -to HEX0[4]
+set_location_assignment PIN_AG18 -to HEX0[5]
+set_location_assignment PIN_AH18 -to HEX0[6]
+set_location_assignment PIN_AF16 -to HEX1[0]
+set_location_assignment PIN_V16 -to HEX1[1]
+set_location_assignment PIN_AE16 -to HEX1[2]
+set_location_assignment PIN_AD17 -to HEX1[3]
+set_location_assignment PIN_AE18 -to HEX1[4]
+set_location_assignment PIN_AE17 -to HEX1[5]
+set_location_assignment PIN_V17 -to HEX1[6]
+set_location_assignment PIN_AA21 -to HEX2[0]
+set_location_assignment PIN_AB17 -to HEX2[1]
+set_location_assignment PIN_AA18 -to HEX2[2]
+set_location_assignment PIN_Y17 -to HEX2[3]
+set_location_assignment PIN_Y18 -to HEX2[4]
+set_location_assignment PIN_AF18 -to HEX2[5]
+set_location_assignment PIN_W16 -to HEX2[6]
+
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX0[*]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX1[*]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[*]
+
+# ---- LED 状态指示 ----
+set_location_assignment PIN_AA24 -to LEDR[0]
+set_location_assignment PIN_AB23 -to LEDR[1]
+set_location_assignment PIN_AC23 -to LEDR[2]
+set_location_assignment PIN_AD24 -to LEDR[3]
+set_location_assignment PIN_AG25 -to LEDR[4]
+
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[*]
+
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS_NO_OUTPUT_GND "AS INPUT TRI-STATED"
